@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 
 // import './App.css'
 
@@ -8,6 +8,8 @@ function App() {
   const [charactersAllowed, setCharactersAllowed] = useState(false);
   const [specialCharactersAllowed, setSpecialCharactersAllowed] = useState(false);
   const [password, setPassword] = useState('');
+  const [copied, setCopied] = useState(false);
+  const passwordRef = useRef(null);
   // const [charactersAllowed, setCharactersAllowed] = useState(true)
   // Function to generate a new password based on the selected options
   const generatePassword = useCallback(()=>{
@@ -30,10 +32,14 @@ function App() {
   const handleGeneratePassword = () => generatePassword();
 
   const handleCopyPassword = useCallback(async () => {
-    if (password) {
-      await navigator.clipboard.writeText(password)
-    }
-  }, [password])
+  if (!password) return
+
+  passwordRef.current?.select()
+  await navigator.clipboard.writeText(password)
+
+  setCopied(true)
+  setTimeout(() => setCopied(false), 2000)
+}, [password])
 
   useEffect(() => {
     generatePassword();
@@ -46,6 +52,7 @@ function App() {
         <h1 className='text-4xl font-bold text-center text-white mt-8 mb-8 my-3'>Password Generator</h1>
         <div className="flex overflow-hidden mb-4 bg-white rounded-lg shadow-md">
           <input
+            ref={passwordRef}
             type="text"
             value={password}
             readOnly
@@ -67,7 +74,7 @@ function App() {
             disabled={!password}
             className="bg-blue-500 text-white px-3 py-2 disabled:opacity-50"
           >
-            Copy
+            {copied ? 'Copied!' : 'Copy'}
           </button>
         </div>
         <div className="text-center">
