@@ -1,0 +1,38 @@
+import React, { useState, useEffect, useId, useMemo } from 'react';
+
+// ==========================================
+// 1. UTILITIES & CURRENCY SYMBOLS & FLAGS
+// ==========================================
+const CURRENCY_METADATA = {
+  usd: { name: 'United States Dollar', symbol: '$', flag: '🇺🇸' },
+  eur: { name: 'Euro', symbol: '€', flag: '🇪🇺' },
+  gbp: { name: 'British Pound', symbol: '£', flag: '🇬🇧' },
+  inr: { name: 'Indian Rupee', symbol: '₹', flag: '🇮🇳' },
+  jpy: { name: 'Japanese Yen', symbol: '¥', flag: '🇯🇵' },
+  cad: { name: 'Canadian Dollar', symbol: 'CA$', flag: '🇨🇦' },
+  aud: { name: 'Australian Dollar', symbol: 'A$', flag: '🇦🇺' },
+  chf: { name: 'Swiss Franc', symbol: 'CHF', flag: '🇨🇭' },
+  cny: { name: 'Chinese Yuan', symbol: '¥', flag: '🇨🇳' },
+  aed: { name: 'UAE Dirham', symbol: 'AED', flag: '🇦🇪' },
+  sgd: { name: 'Singapore Dollar', symbol: 'S$', flag: '🇸🇬' },
+  brl: { name: 'Brazilian Real', symbol: 'R$', flag: '🇧🇷' },
+  rub: { name: 'Russian Ruble', symbol: '₽', flag: '🇷🇺' },
+  zar: { name: 'South African Rand', symbol: 'R', flag: '🇿🇦' },
+  mxn: { name: 'Mexican Peso', symbol: 'MX$', flag: '🇲🇽' },
+  krw: { name: 'South Korean Won', symbol: '₩', flag: '🇰🇷' },
+  btc: { name: 'Bitcoin', symbol: '₿', flag: '₿' },
+  eth: { name: 'Ethereum', symbol: 'Ξ', flag: 'Ξ' },
+};
+
+const getCurrencyMetadata = (code) => {
+  const lower = (code || '').toLowerCase();
+  return (
+    CURRENCY_METADATA[lower] || {
+      name: code ? code.toUpperCase() : 'Unknown',
+      symbol: code ? code.toUpperCase() : '',
+      flag: '🌐',
+    }
+  );
+};
+
+export { getCurrencyMetadata, CURRENCY_METADATA };
